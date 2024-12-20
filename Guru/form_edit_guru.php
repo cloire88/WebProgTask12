@@ -1,70 +1,58 @@
+<!-- Updated file: form_edit_guru.php -->
 <?php
 include("../config.php");
 
-// kalau tidak ada id di query string
-if( !isset($_GET['id']) ){
-    header('Location: list_gur.php');
+if (!isset($_GET['id'])) {
+    header('Location: list_guru.php');
 }
 
-//ambil id dari query string
 $id = $_GET['id'];
-
-// buat query untuk ambil data dari database
 $sql = "SELECT * FROM guru WHERE id=$id";
 $query = mysqli_query($dbPPDB_SMA_Garuda, $sql);
 $guru = mysqli_fetch_assoc($query);
 
-// jika data yang di-edit tidak ditemukan
-if( mysqli_num_rows($query) < 1 ){
-    die("data tidak ditemukan...");
+if (mysqli_num_rows($query) < 1) {
+    die("Data tidak ditemukan...");
 }
-
 ?>
 
-
 <!DOCTYPE html>
-<html>
-    <head>
-        <title>Formulir Edit Guru | SMA Garuda</title>
-    </head>
-    <body>
-        <header>
-            <h3>Formulir Edit Guru</h3>
-        </header>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Form Edit Guru | SMA Garuda</title>
+</head>
+<body>
+<div class="container mt-5">
+    <h3 class="text-center">Formulir Edit Guru</h3>
+    <form action="proses_edit_guru.php" method="POST" class="mt-4">
+        <input type="hidden" name="id" value="<?php echo $guru['id']; ?>">
 
-        <form action="proses_edit_guru.php" method="POST">
+        <div class="mb-3">
+            <label for="nama" class="form-label">Nama</label>
+            <input type="text" name="nama" class="form-control" placeholder="Masukkan nama" value="<?php echo $guru['nama']; ?>">
+        </div>
 
-            <fieldset>
+        <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" name="email" class="form-control" placeholder="Masukkan email" value="<?php echo $guru['email']; ?>">
+        </div>
 
-                <input type="hidden" name="id" value="<?php echo $guru['id'] ?>" />
+        <div class="mb-3">
+            <label for="alamat" class="form-label">Alamat</label>
+            <input type="text" name="alamat" class="form-control" placeholder="Masukkan alamat" value="<?php echo $guru['alamat']; ?>">
+        </div>
 
-                <p>
-                <label for = "nama" >Nama : </label>
-                <input name = "nama" type = "text" placeholder = "masukkan nama">
-                </p>
+        <div class="mb-3">
+            <label for="jabatan" class="form-label">Jabatan</label>
+            <input type="text" name="jabatan" class="form-control" placeholder="Masukkan jabatan" value="<?php echo $guru['jabatan']; ?>">
+        </div>
 
-                <p>
-                <label for = "email" >Email : </label>
-                <input type = "text" name="email" placeholder = "masukkan email">
-                </p>
-
-                <p>
-                <label for = "alamat" >Alamat : </label>
-                <input name = "alamat" type = "text" placeholder = "masukkan alamat">
-                </p>
-
-                <p>
-                <label for ="jabatan">Jabatan : </label>
-                <input type="text" name = "jabatan" placeholder="masukkan jabatan">
-                </p>
-                <p>
-                    <input type="submit" value="Simpan" name="simpan" />
-                </p>
-
-            </fieldset>
-
-
-        </form>
-
-    </body>
+        <button type="submit" class="btn btn-primary">Simpan</button>
+    </form>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
 </html>
